@@ -1,0 +1,64 @@
+<div>
+  <h2>Mis Saldos</h2>
+  <p id="warning-filter" ng-class="{hidden: !txService.disabledButton}">Para utilizar todas las funciones debe desabilitar el filtro.</p>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <input ng-model="nametx" class="form-control" placeholder="Nombre"></input>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <input ng-model="moneytx" class="form-control" placeholder="Monto"></input>
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <md-datepicker ng-model="datetx" md-placeholder="Fecha"></md-datepicker>
+    </div>
+    <div class="col-md-2 col-xs-2">
+      <button ng-class="{disabled: txService.disabledButton}" class="btn btn-primary" ng-click="addTx();"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Valor</th>
+        <th>Fecha</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tr ng-class="tx[1] > 0 ? 'success' : 'danger'" ng-repeat="tx in txService.transactions track by $index">
+      <td>{{ tx[0] }}</td>
+      <td>{{ tx[1] }}</td>
+      <td>{{ tx[2].getDate() + "-" + (tx[2].getMonth() + 1) + "-" + tx[2].getFullYear() }}</td>
+      <td>
+        <button ng-class="{disabled: txService.disabledButton}" class="btn btn-danger" ng-click="removeTx($index);"><i class="fa fa-trash"></i></button>
+      </td>
+    </tr>
+    <tr class="info">
+      <td> <b> Total </b> </td>
+      <td> {{sumAllTx()}} </td>
+      <td>  </td>
+      <td>  </td>
+    </tr>
+  </table>
+  <div class="row">
+    <button id="select-directory" class="btn btn-primary" ng-click="saveTxs();"><i class="fa fa-save"></i></button>
+    <button id="load-directory" ng-class="{disabled: txService.disabledButton}" class="btn btn-primary" ng-click="loadTxs();"><i class="fa fa-history"></i></button>
+  </div>
+  <hr>
+  <h2>Filtrar</h2>
+  <div class="row">
+    <div class="col-md-4 col-xs-4">
+      <md-datepicker ng-model="date1" md-placeholder="Fecha Inicial"></md-datepicker>
+    </div>
+    <div class="col-md-4 col-xs-4">
+      <md-datepicker ng-model="date2" md-placeholder="Fecha Final"></md-datepicker>
+    </div>
+    <div class="col-md-1 col-xs-1">
+      <button ng-class="{disabled: txService.disabledButton}" ng-click="applyFilter();" class="btn btn-primary"><i class="fa fa-filter"></i></button>
+    </div>
+    <div class="col-md-1 col-xs-1">
+      <button ng-class="{disabled: !txService.disabledButton}" ng-click="disableFilter();" class="btn btn-primary">
+        <i class="fa fa-ban"></i>
+      </button>
+    </div>
+  </div>
+</div>

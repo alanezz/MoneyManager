@@ -1,0 +1,12 @@
+.main-div {
+  padding: 40px;
+  padding-top: 80px;
+}
+
+#warning-filter {
+  color: red;
+}
+
+#warning .hidden {
+  visibility: hidden;
+}
