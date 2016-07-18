@@ -16,6 +16,10 @@
       templateUrl: 'static/templates/about.html' ,
       controller: 'aboutController',
       controllerAs: 'aboutCtrl'
+    }).when('/categories', {
+      templateUrl: 'static/templates/categories.html' ,
+      controller: 'categoriesController',
+      controllerAs: 'categoriesCtrl'
     });
     $routeProvider.otherwise({ redirectTo: '/' });
   }

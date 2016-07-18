@@ -10,3 +10,15 @@
 #warning .hidden {
   visibility: hidden;
 }
+
+.row-category {
+  margin-top: 15px;
+}
+
+.color-red {
+  color: #B71C1C;
+}
+
+.color-blue {
+  color: #1A237E;
+}

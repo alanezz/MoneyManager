@@ -5,7 +5,8 @@
 
     function mainController($scope, $rootScope, transactionsService) {
       $scope.txService = transactionsService;
-      $scope.transactions = []
+      $scope.transactionCategory = "";
+      $scope.filterCategory = "*";
       $scope.nametx = "";
       $scope.moneytx = "";
       $scope.datetx = null;
@@ -17,7 +18,7 @@
       $scope.applyFilter = function() {
         if(!$scope.txService.disabledButton) {
           $scope.txService.disabledButton = true;
-          $scope.txService.applyFilter($scope.date1, $scope.date2);
+          $scope.txService.applyFilter($scope.date1, $scope.date2, $scope.filterCategory);
         }
       }
 
@@ -34,7 +35,9 @@
           if (isNaN(moneyToInt)) {
             moneyToInt = 0;
           }
-          $scope.txService.transactions.push([$scope.nametx, moneyToInt, $scope.datetx]);
+          $scope.txService.transactions.push([$scope.nametx,
+                                              moneyToInt, $scope.datetx,
+                                              $scope.transactionCategory]);
 
           $scope.txService.transactions.sort(sortFunction);
 
@@ -93,7 +96,8 @@
                 $scope.txService.transactions[i][2].getDate(),
                 $scope.txService.transactions[i][2].getMonth() + 1,
                 $scope.txService.transactions[i][2].getFullYear()
-              ]
+              ],
+              $scope.txService.transactions[i][3]
             ]);
           }
           db.set('values', serializedTransactions).value();
@@ -106,16 +110,20 @@
             const db = low(path[0]);
             db.defaults({ values: {} }).value();
             var myValues = db.get('values').value();
-            var newValues = []
-
-            for(var i = 0; i < myValues.length; i++) {
-              newValues.push([myValues[i][0], myValues[i][1],
-                new Date(myValues[i][2][2] + "-" + myValues[i][2][1] + "-" + myValues[i][2][0])]);
-            }
-            $scope.txService.load(newValues);
+            $scope.txService.load(createTxsArray(myValues));
             $scope.$apply();
           });
         }
+      }
+
+      function createTxsArray (myValues) {
+        var newValues = []
+        for(var i = 0; i < myValues.length; i++) {
+          newValues.push([myValues[i][0], myValues[i][1],
+            new Date(myValues[i][2][2] + "-" + myValues[i][2][1] + "-" + myValues[i][2][0]),
+            myValues[i][3]]);
+        }
+        return newValues;
       }
 
     }

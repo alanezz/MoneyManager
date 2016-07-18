@@ -1,0 +1,31 @@
+<div ng-init="txService.initCategories()">
+  <h2>Categorías </h2>
+  <div class="row">
+    <div class="col-md-6 col-xs-6">
+      <div class="row">
+        <div class="col-md-10 col-xs-10">
+          <input ng-model="newCategory" class="form-control" placeholder="Nueva Categoría"></input>
+        </div>
+        <div class="col-md-2 col-xs-2">
+          <button class="btn btn-primary" ng-click="saveCategory();"><i class="fa fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Categorías</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tr ng-repeat="category in txService.categories track by $index">
+          <td>{{ category }}</td>
+          <td>
+            <button class="btn btn-danger" ng-click="removeCategory($index);"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

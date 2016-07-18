@@ -1,4 +1,4 @@
-<div>
+<div ng-init="txService.initCategories()">
   <h2>Mis Saldos</h2>
   <p id="warning-filter" ng-class="{hidden: !txService.disabledButton}">Para utilizar todas las funciones debe desabilitar el filtro.</p>
   <div class="row">
@@ -11,8 +11,24 @@
     <div class="col-md-4 col-xs-4">
       <md-datepicker ng-model="datetx" md-placeholder="Fecha"></md-datepicker>
     </div>
+
     <div class="col-md-2 col-xs-2">
       <button ng-class="{disabled: txService.disabledButton}" class="btn btn-primary" ng-click="addTx();"><i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+  <div class="row row-category">
+    <div class="col-md-3 col-xs-3">
+      <md-input-container>
+        <label>Categoría</label>
+        <md-select ng-model="transactionCategory">
+          <md-option value="">
+            <span class="color-red">Ninguna</span>
+          </md-option>
+          <md-option ng-repeat="category in txService.categories" value="{{category}}">
+            {{ category }}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
   </div>
   <table class="table table-striped">
@@ -21,6 +37,7 @@
         <th>Nombre</th>
         <th>Valor</th>
         <th>Fecha</th>
+        <th>Categoría</th>
         <th>Eliminar</th>
       </tr>
     </thead>
@@ -28,6 +45,7 @@
       <td>{{ tx[0] }}</td>
       <td>{{ tx[1] }}</td>
       <td>{{ tx[2].getDate() + "-" + (tx[2].getMonth() + 1) + "-" + tx[2].getFullYear() }}</td>
+      <td>{{ tx[3] }}</td>
       <td>
         <button ng-class="{disabled: txService.disabledButton}" class="btn btn-danger" ng-click="removeTx($index);"><i class="fa fa-trash"></i></button>
       </td>
@@ -35,6 +53,7 @@
     <tr class="info">
       <td> <b> Total </b> </td>
       <td> {{sumAllTx()}} </td>
+      <td>  </td>
       <td>  </td>
       <td>  </td>
     </tr>
@@ -59,6 +78,24 @@
       <button ng-class="{disabled: !txService.disabledButton}" ng-click="disableFilter();" class="btn btn-primary">
         <i class="fa fa-ban"></i>
       </button>
+    </div>
+  </div>
+  <div class="row row-category">
+    <div class="col-md-3 col-xs-3">
+      <md-input-container>
+        <label>Categoría</label>
+        <md-select ng-model="filterCategory">
+          <md-option value="*">
+            <span class="color-blue">Todas</span>
+          </md-option>
+          <md-option value="">
+            <span class="color-red">Ninguna</span>
+          </md-option>
+          <md-option ng-repeat="category in txService.categories" value="{{category}}">
+            {{ category }}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
   </div>
 </div>
